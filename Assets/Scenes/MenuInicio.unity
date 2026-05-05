@@ -122,6 +122,55 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &476427809
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 476427811}
+  - component: {fileID: 476427810}
+  m_Layer: 0
+  m_Name: GestorGatos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &476427810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476427809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f9f248c6426c744aa747d8dee41adad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  todosLosGatos:
+  - {fileID: 11400000, guid: a0fc79eacbe54044a9ba5a80018d3665, type: 2}
+  prefabGatoSalvado: {fileID: 7495995100460106085, guid: 8e96a8603f11d994fb175293977b8855, type: 3}
+  minGatosTablon: 1
+  maxGatosTablon: 3
+--- !u!4 &476427811
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476427809}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.13727275, y: -0.13019496, z: 0.030180734}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &606773791
 GameObject:
   m_ObjectHideFlags: 0
@@ -1472,3 +1521,4 @@ SceneRoots:
   - {fileID: 2119490390}
   - {fileID: 1457828923}
   - {fileID: 948063431}
+  - {fileID: 476427811}

@@ -48,11 +48,23 @@ public class GestorGatos : MonoBehaviour
 
     public void SalvarGato(DatosGato gato)
     {
+        Debug.Log("SalvarGato llamado: " + gato.nombreGato);
         gato.estaSalvado = true;
         AplicarBonus(gato);
 
+        Debug.Log("Prefab: " + prefabGatoSalvado);
         if (prefabGatoSalvado != null)
-            Instantiate(prefabGatoSalvado);
+        {
+            if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "CafeScene")
+            {
+                GameObject gatoObj = Instantiate(prefabGatoSalvado);
+                Debug.Log("Gato instanciado: " + gatoObj.name);
+            }
+            else
+            {
+                Debug.Log("No estamos en CafeScene, se instanciará al volver");
+            }
+        }
 
         if (GestorDialogos.Instance != null)
         {
@@ -94,5 +106,26 @@ public class GestorGatos : MonoBehaviour
     {
         foreach (DatosGato gato in todosLosGatos)
             gato.estaSalvado = false;
+    }
+    private void OnEnable()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnScenaCargada;
+    }
+
+    private void OnDisable()
+    {
+        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnScenaCargada;
+    }
+
+    private void OnScenaCargada(UnityEngine.SceneManagement.Scene escena, UnityEngine.SceneManagement.LoadSceneMode modo)
+    {
+        if (escena.name == "CafeScene")
+        {
+            foreach (DatosGato gato in todosLosGatos)
+            {
+                if (gato.estaSalvado && prefabGatoSalvado != null)
+                    Instantiate(prefabGatoSalvado);
+            }
+        }
     }
 }

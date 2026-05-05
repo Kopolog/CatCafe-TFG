@@ -18,6 +18,6 @@ MonoBehaviour:
   dificultad: 1
   tipoBonus: 2
   valorBonus: 2
-  descripcionBonus: Es tan bonito que la gente paga x2
+  descripcionBonus: Es tan bonito que la gente paga el doble
   gastoPorDia: 0
-  estaSalvado: 0
+  estaSalvado: 1

@@ -24,8 +24,14 @@ public class GestorMinijuegos : MonoBehaviour
     {
         if (GatoActual != null)
         {
+            Debug.Log("MinijuegoGanado llamado, gato: " + GatoActual.nombreGato);
+            Debug.Log("GestorGatos instance: " + GestorGatos.Instance);
             GestorGatos.Instance.SalvarGato(GatoActual);
             GatoActual = null;
+        }
+        else
+        {
+            Debug.Log("GatoActual es null");
         }
     }
 

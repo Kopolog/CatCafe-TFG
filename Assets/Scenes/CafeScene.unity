@@ -1039,55 +1039,6 @@ MonoBehaviour:
   prefabGatoSalvado: {fileID: 0}
   minGatosTablon: 1
   maxGatosTablon: 3
---- !u!1 &778768751
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 778768753}
-  - component: {fileID: 778768752}
-  m_Layer: 0
-  m_Name: GestorGatos
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &778768752
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 778768751}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f9f248c6426c744aa747d8dee41adad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  todosLosGatos:
-  - {fileID: 11400000, guid: a0fc79eacbe54044a9ba5a80018d3665, type: 2}
-  prefabGatoSalvado: {fileID: 0}
-  minGatosTablon: 1
-  maxGatosTablon: 3
---- !u!4 &778768753
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 778768751}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.3773659, y: 2.805625, z: -0.008044697}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &858016473
 GameObject:
   m_ObjectHideFlags: 0
@@ -3997,6 +3948,63 @@ RectTransform:
   m_AnchoredPosition: {x: -40, y: 0}
   m_SizeDelta: {x: 500, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &1286477905599763235
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7616718324046934635, guid: ffaf08c92601c44429afa9f224c61e41, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.3773659
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616718324046934635, guid: ffaf08c92601c44429afa9f224c61e41, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.805625
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616718324046934635, guid: ffaf08c92601c44429afa9f224c61e41, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.008044697
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616718324046934635, guid: ffaf08c92601c44429afa9f224c61e41, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616718324046934635, guid: ffaf08c92601c44429afa9f224c61e41, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616718324046934635, guid: ffaf08c92601c44429afa9f224c61e41, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616718324046934635, guid: ffaf08c92601c44429afa9f224c61e41, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616718324046934635, guid: ffaf08c92601c44429afa9f224c61e41, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616718324046934635, guid: ffaf08c92601c44429afa9f224c61e41, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7616718324046934635, guid: ffaf08c92601c44429afa9f224c61e41, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8456511678497616278, guid: ffaf08c92601c44429afa9f224c61e41, type: 3}
+      propertyPath: m_Name
+      value: GestorGatos
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ffaf08c92601c44429afa9f224c61e41, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -4009,5 +4017,5 @@ SceneRoots:
   - {fileID: 972475525}
   - {fileID: 858016475}
   - {fileID: 1126094381}
-  - {fileID: 778768753}
+  - {fileID: 1286477905599763235}
   - {fileID: 309416768}
