@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebf5f86d78604a14c8262a55f6eaea8c, type: 3}
+  m_Name: gato3
+  m_EditorClassIdentifier: 
+  nombreGato: Lira
+  fotoGato: {fileID: 800529949, guid: b120d6712c74d624890af057696e012c, type: 3}
+  descripcion: Su pelaje estan suave que tranquiliza mas
+  dificultad: 3
+  tipoBonus: 1
+  valorBonus: 2
+  descripcionBonus: Los clientes tienen mas paciencia
+  gastoPorDia: 45
+  estaSalvado: 0

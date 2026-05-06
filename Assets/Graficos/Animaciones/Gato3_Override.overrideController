@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Gato3_Override
+  m_Controller: {fileID: 9100000, guid: 3c3071de9e950c74e8b3b851a5d4d89e, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 95e15a0dcf9eb8d49ad5f39b598a03ca, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 03deb89edcb1b474d8737ede90ecc6b1, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: b6837d3bd67e8ad4a96180a44db76cfb, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 9139bc12f489fbc4083bed86caaf286b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: da3744a8fd0d3d44280de1540949f594, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 8c909674d0cb30f41bc5ceef3e59b501, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 14ca88f1afa34cf4597ad8f7fc170dd8, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 90d7de34aedd2994fb3090e150597bc4, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: e0402e513e5776c44bb7ab14d189d0c4, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7b1cee901b9a99c4d905bba545807b4c, type: 2}
