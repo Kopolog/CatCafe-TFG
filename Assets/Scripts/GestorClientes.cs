@@ -11,8 +11,7 @@ public class GestorClientes : MonoBehaviour
     [SerializeField] private float pacienciaMaxima = 15f;
 
     [Header("Productos")]
-    [SerializeField] private string[] menu = { "Cafe", "Latte", "Capuccino", "Te", "Zumo" };
-    [SerializeField] private int[] precios = { 5, 8, 10, 4, 6 };
+    [SerializeField] private DatosProducto[] productos;
 
     [Header("UI")]
     [SerializeField] private GameObject panelPedido;
@@ -25,9 +24,9 @@ public class GestorClientes : MonoBehaviour
     [SerializeField] private Color colorMesaOcupada = new Color(1f, 0.8f, 0.5f, 1f);
 
     private bool clienteEsperando = false;
-    private int pedidoActual;
+    private DatosProducto pedidoActual;
     private float pacienciaActual;
-    private int mesaActual; 
+    private int mesaActual;
     private Color colorOriginalMesa;
 
     void Awake() { Instance = this; }
@@ -50,9 +49,7 @@ public class GestorClientes : MonoBehaviour
             barraPaciencia.value = pacienciaActual / pacienciaMaxima;
 
         if (pacienciaActual <= 0)
-        {
             ClienteSeFue();
-        }
     }
 
     private IEnumerator SpawnClientes()
@@ -63,51 +60,50 @@ public class GestorClientes : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(tiempoEntreClientes);
-
             if (!clienteEsperando)
-            {
                 NuevoCliente();
-            }
         }
     }
 
     private void NuevoCliente()
     {
-        pedidoActual = Random.Range(0, menu.Length);
+        if (productos == null || productos.Length == 0) return;
+
+        pedidoActual = productos[Random.Range(0, productos.Length)];
         pacienciaActual = pacienciaMaxima;
         clienteEsperando = true;
-
         mesaActual = Random.Range(1, 3);
 
         ResaltarMesa(mesaActual, true);
 
         panelPedido?.SetActive(true);
         if (textoPedido != null)
-            textoPedido.text = "Mesa " + mesaActual + ": Quiero un " + menu[pedidoActual];
+            textoPedido.text = "Mesa " + mesaActual + ": Quiero un " + pedidoActual.nombreProducto;
 
         GestorDialogos.Instance?.MostrarDialogo(
             "Nuevo cliente en la mesa " + mesaActual + "!"
         );
     }
 
-    public void PrepararPedido()
+    public void PrepararPedido(DatosProducto producto)
     {
         if (!clienteEsperando) return;
 
+        if (producto.origen != pedidoActual.origen)
+        {
+            GestorDialogos.Instance?.MostrarDialogo(
+                "Ese producto no se prepara aqui!"
+            );
+            return;
+        }
+
         GestorDialogos.Instance?.MostrarDialogo(
-            "Preparando " + menu[pedidoActual] + "... Ahora llevalo a la mesa " + mesaActual + "!"
+            "Preparando " + pedidoActual.nombreProducto + "... Ahora llevalo a la mesa " + mesaActual + "!"
         );
     }
 
-    public void ServirMesa1()
-    {
-        IntentarServir(1);
-    }
-
-    public void ServirMesa2()
-    {
-        IntentarServir(2);
-    }
+    public void ServirMesa1() { IntentarServir(1); }
+    public void ServirMesa2() { IntentarServir(2); }
 
     private void IntentarServir(int mesa)
     {
@@ -119,13 +115,12 @@ public class GestorClientes : MonoBehaviour
             panelPedido?.SetActive(false);
             ResaltarMesa(mesaActual, false);
 
-            int dineroGanado = precios[pedidoActual];
-            GameManager.Instance?.AnadirDinero(dineroGanado);
+            GameManager.Instance?.AnadirDinero(pedidoActual.precio);
 
             GestorDialogos.Instance?.MostrarDialogo(
                 new string[] {
-                    "Aqui tiene su " + menu[pedidoActual] + "!",
-                    "+" + dineroGanado + " monedas. Buen trabajo!"
+                    "Aqui tiene su " + pedidoActual.nombreProducto + "!",
+                    "+" + pedidoActual.precio + " monedas. Buen trabajo!"
                 }
             );
         }
@@ -162,6 +157,6 @@ public class GestorClientes : MonoBehaviour
 
     public void ModificarRitmoAparicion(float multiplicador)
     {
-        tiempoEntreClientes /= multiplicador; 
+        tiempoEntreClientes /= multiplicador;
     }
 }

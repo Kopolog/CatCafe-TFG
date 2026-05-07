@@ -75,11 +75,9 @@ public class PanelGestorGatos : MonoBehaviour
     {
         gatoActivo = gato;
 
-        // Destruir gato actual en escena
         if (gatoEnEscena != null)
             Destroy(gatoEnEscena);
 
-        // Buscar el prefab que corresponde a este gato
         GameObject prefabElegido = null;
         foreach (GameObject prefab in prefabsGatos)
         {
@@ -92,7 +90,12 @@ public class PanelGestorGatos : MonoBehaviour
         }
 
         if (prefabElegido != null)
+        {
             gatoEnEscena = Instantiate(prefabElegido);
+            GatoSalvado gsInstanciado = gatoEnEscena.GetComponent<GatoSalvado>();
+            if (gsInstanciado != null)
+                GameManager.Instance?.RegistrarGatoActivo(gsInstanciado);
+        }
 
         RefrescarPanel();
     }

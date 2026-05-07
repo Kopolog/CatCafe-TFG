@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public int ClientesServidos { get; private set; } = 0;
 
     private float multiplicadorGanancias = 1f;
+    private GatoSalvado gatoActualEnEscena = null;
 
     void Awake()
     {
@@ -21,13 +22,21 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    public void RegistrarGatoActivo(GatoSalvado gato)
+    {
+        gatoActualEnEscena = gato;
+    }
+
     public void AnadirDinero(int cantidad)
     {
-        int cantidadFinal = Mathf.RoundToInt(cantidad * multiplicadorGanancias);
+        float bonusGato = 1f;
+        if (gatoActualEnEscena != null)
+            bonusGato = 1f + gatoActualEnEscena.ObtenerMultiplicadorBonus() * 0.5f;
+
+        int cantidadFinal = Mathf.RoundToInt(cantidad * multiplicadorGanancias * bonusGato);
         Dinero += cantidadFinal;
         GestorUI.Instance?.ActualizarDinero(Dinero);
     }
-
 
     public bool TieneSuficiente(int cantidad)
     {
@@ -44,7 +53,6 @@ public class GameManager : MonoBehaviour
     {
         multiplicadorGanancias *= multiplicador;
     }
-
 
     public void CargarEscena(string nombreEscena)
     {
@@ -64,17 +72,15 @@ public class GameManager : MonoBehaviour
         multiplicadorGanancias = PlayerPrefs.GetFloat("Multiplicador", 1f);
         GestorUI.Instance?.ActualizarDinero(Dinero);
     }
+
     public void ReiniciarPartida()
     {
-        
         Dinero = 0;
         ClientesServidos = 0;
         multiplicadorGanancias = 1f;
+        gatoActualEnEscena = null;
         PlayerPrefs.DeleteAll();
-
-     
         GestorGatos.Instance?.ReiniciarGatos();
-
         CargarEscena("MenuPrincipal");
     }
 }
