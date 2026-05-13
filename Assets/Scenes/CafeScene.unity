@@ -1586,13 +1586,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tiempoEntreClientes: 8
   pacienciaMaxima: 15
-  menu:
-  - Cafe
-  - Latte
-  - Capuccino
-  - Te
-  - Zumo
-  precios: 05000000080000000a0000000400000006000000
+  productos:
+  - {fileID: 11400000, guid: 5e6f17f8491735c45bb8d13cc24114b7, type: 2}
+  - {fileID: 11400000, guid: 46f6f589305e25348a370c564b1a3f88, type: 2}
+  - {fileID: 11400000, guid: 9d8a4c95bb411874a93dad6895455805, type: 2}
+  - {fileID: 11400000, guid: 5ba7201c1a6460849916f8dda8d756de, type: 2}
+  - {fileID: 11400000, guid: feb8cf8e10adc0c4187b16a39edde1e2, type: 2}
   panelPedido: {fileID: 1262522288}
   textoPedido: {fileID: 1248109764}
   barraPaciencia: {fileID: 2075506456}

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 
@@ -6,22 +7,30 @@ public class GestorClientes : MonoBehaviour
 {
     public static GestorClientes Instance { get; private set; }
 
-    [Header("Config")]
+    [Header("Config clientes")]
     [SerializeField] private float tiempoEntreClientes = 8f;
     [SerializeField] private float pacienciaMaxima = 15f;
 
     [Header("Productos")]
     [SerializeField] private DatosProducto[] productos;
 
-    [Header("UI")]
+    [Header("UI pedido")]
     [SerializeField] private GameObject panelPedido;
     [SerializeField] private TextMeshProUGUI textoPedido;
-    [SerializeField] private UnityEngine.UI.Slider barraPaciencia;
+    [SerializeField] private Slider barraPaciencia;
 
     [Header("Mesas")]
     [SerializeField] private SpriteRenderer mesa1Sprite;
     [SerializeField] private SpriteRenderer mesa2Sprite;
     [SerializeField] private Color colorMesaOcupada = new Color(1f, 0.8f, 0.5f, 1f);
+
+    [Header("NPCs")]
+    [SerializeField] private GameObject npc1;
+    [SerializeField] private GameObject npc2;
+    [SerializeField] private GameObject vineta1;
+    [SerializeField] private GameObject vineta2;
+    [SerializeField] private Image iconoPedido1;
+    [SerializeField] private Image iconoPedido2;
 
     private bool clienteEsperando = false;
     private DatosProducto pedidoActual;
@@ -34,34 +43,28 @@ public class GestorClientes : MonoBehaviour
     void Start()
     {
         panelPedido?.SetActive(false);
-        if (mesa1Sprite != null)
-            colorOriginalMesa = mesa1Sprite.color;
+        OcultarNPCs();
+        if (mesa1Sprite != null) colorOriginalMesa = mesa1Sprite.color;
         StartCoroutine(SpawnClientes());
     }
 
     void Update()
     {
         if (!clienteEsperando) return;
-
         pacienciaActual -= Time.deltaTime;
-
         if (barraPaciencia != null)
             barraPaciencia.value = pacienciaActual / pacienciaMaxima;
-
-        if (pacienciaActual <= 0)
-            ClienteSeFue();
+        if (pacienciaActual <= 0) ClienteSeFue();
     }
 
     private IEnumerator SpawnClientes()
     {
         yield return new WaitForSeconds(2f);
         NuevoCliente();
-
         while (true)
         {
             yield return new WaitForSeconds(tiempoEntreClientes);
-            if (!clienteEsperando)
-                NuevoCliente();
+            if (!clienteEsperando) NuevoCliente();
         }
     }
 
@@ -75,31 +78,29 @@ public class GestorClientes : MonoBehaviour
         mesaActual = Random.Range(1, 3);
 
         ResaltarMesa(mesaActual, true);
+        MostrarNPC(mesaActual);
 
         panelPedido?.SetActive(true);
         if (textoPedido != null)
-            textoPedido.text = "Mesa " + mesaActual + ": Quiero un " + pedidoActual.nombreProducto;
+            textoPedido.text = "Mesa " + mesaActual + ": " + pedidoActual.nombreProducto;
 
         GestorDialogos.Instance?.MostrarDialogo(
-            "Nuevo cliente en la mesa " + mesaActual + "!"
-        );
+            "¡Nuevo cliente en la mesa " + mesaActual + "! Quiere un " + pedidoActual.nombreProducto);
     }
 
-    public void PrepararPedido(DatosProducto producto)
+    // Llamado por GestorProductos cuando el jugador selecciona un producto
+    public void NotificarProductoPreparado(DatosProducto producto)
     {
         if (!clienteEsperando) return;
 
         if (producto.origen != pedidoActual.origen)
         {
-            GestorDialogos.Instance?.MostrarDialogo(
-                "Ese producto no se prepara aqui!"
-            );
+            GestorDialogos.Instance?.MostrarDialogo("¡Ese producto no se prepara aquí!");
             return;
         }
 
         GestorDialogos.Instance?.MostrarDialogo(
-            "Preparando " + pedidoActual.nombreProducto + "... Ahora llevalo a la mesa " + mesaActual + "!"
-        );
+            "Preparando " + producto.nombreProducto + "... ¡Ahora llévalo a la mesa " + mesaActual + "!");
     }
 
     public void ServirMesa1() { IntentarServir(1); }
@@ -109,27 +110,40 @@ public class GestorClientes : MonoBehaviour
     {
         if (!clienteEsperando) return;
 
-        if (mesa == mesaActual)
+        DatosProducto preparado = GestorProductos.Instance?.ObtenerProductoPreparado();
+
+        if (preparado == null)
         {
-            clienteEsperando = false;
-            panelPedido?.SetActive(false);
-            ResaltarMesa(mesaActual, false);
-
-            GameManager.Instance?.AnadirDinero(pedidoActual.precio);
-
-            GestorDialogos.Instance?.MostrarDialogo(
-                new string[] {
-                    "Aqui tiene su " + pedidoActual.nombreProducto + "!",
-                    "+" + pedidoActual.precio + " monedas. Buen trabajo!"
-                }
-            );
+            GestorDialogos.Instance?.MostrarDialogo("¡Primero prepara el pedido en la cafetera o cocina!");
+            return;
         }
-        else
+
+        if (preparado != pedidoActual)
         {
             GestorDialogos.Instance?.MostrarDialogo(
-                "Esa no es la mesa correcta! El cliente esta en la mesa " + mesaActual
-            );
+                "Eso no es lo que pidió... Quiere un " + pedidoActual.nombreProducto);
+            return;
         }
+
+        if (mesa != mesaActual)
+        {
+            GestorDialogos.Instance?.MostrarDialogo(
+                "Mesa equivocada. El cliente está en la mesa " + mesaActual);
+            return;
+        }
+
+        // Servir correctamente
+        clienteEsperando = false;
+        panelPedido?.SetActive(false);
+        ResaltarMesa(mesaActual, false);
+        OcultarNPCs();
+        GestorProductos.Instance?.LimpiarProductoPreparado();
+        GameManager.Instance?.AnadirDinero(pedidoActual.precio);
+
+        GestorDialogos.Instance?.MostrarDialogo(new string[] {
+            "¡Aquí tiene su " + pedidoActual.nombreProducto + "!",
+            "+" + pedidoActual.precio + " monedas. ¡Buen trabajo!"
+        });
     }
 
     private void ClienteSeFue()
@@ -137,26 +151,49 @@ public class GestorClientes : MonoBehaviour
         clienteEsperando = false;
         panelPedido?.SetActive(false);
         ResaltarMesa(mesaActual, false);
+        OcultarNPCs();
 
-        GestorDialogos.Instance?.MostrarDialogo(
-            "El cliente se fue enfadado..."
-        );
+        int penalizacion = pedidoActual != null ? pedidoActual.precio / 2 : 5;
+        GameManager.Instance?.GastarDinero(penalizacion);
+
+        GestorDialogos.Instance?.MostrarDialogo(new string[] {
+            "El cliente se fue enfadado...",
+            "-" + penalizacion + " monedas de penalización."
+        });
+    }
+
+    private void MostrarNPC(int mesa)
+    {
+        if (mesa == 1)
+        {
+            if (npc1 != null) npc1.SetActive(true);
+            if (vineta1 != null) vineta1.SetActive(true);
+            if (iconoPedido1 != null && pedidoActual.iconoProducto != null)
+                iconoPedido1.sprite = pedidoActual.iconoProducto;
+        }
+        else
+        {
+            if (npc2 != null) npc2.SetActive(true);
+            if (vineta2 != null) vineta2.SetActive(true);
+            if (iconoPedido2 != null && pedidoActual.iconoProducto != null)
+                iconoPedido2.sprite = pedidoActual.iconoProducto;
+        }
+    }
+
+    private void OcultarNPCs()
+    {
+        if (npc1 != null) npc1.SetActive(false);
+        if (npc2 != null) npc2.SetActive(false);
+        if (vineta1 != null) vineta1.SetActive(false);
+        if (vineta2 != null) vineta2.SetActive(false);
     }
 
     private void ResaltarMesa(int mesa, bool resaltar)
     {
         SpriteRenderer sr = (mesa == 1) ? mesa1Sprite : mesa2Sprite;
-        if (sr != null)
-            sr.color = resaltar ? colorMesaOcupada : colorOriginalMesa;
+        if (sr != null) sr.color = resaltar ? colorMesaOcupada : colorOriginalMesa;
     }
 
-    public void ModificarPaciencia(float multiplicador)
-    {
-        pacienciaMaxima *= multiplicador;
-    }
-
-    public void ModificarRitmoAparicion(float multiplicador)
-    {
-        tiempoEntreClientes /= multiplicador;
-    }
+    public void ModificarPaciencia(float multiplicador) { pacienciaMaxima *= multiplicador; }
+    public void ModificarRitmoAparicion(float multiplicador) { tiempoEntreClientes /= multiplicador; }
 }

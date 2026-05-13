@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1a240dac1debe3479ed8bb5f0e4ad66, type: 3}
   m_Name: zumo
   m_EditorClassIdentifier: 
-  nombreProducto: 
+  nombreProducto: Zumo
   iconoProducto: {fileID: 0}
-  precio: 0
+  precio: 6
   tipo: 0
   origen: 0
-  cooldown: 0
+  cooldown: 4
