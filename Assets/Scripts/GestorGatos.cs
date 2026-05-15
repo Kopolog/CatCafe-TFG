@@ -17,6 +17,8 @@ public class GestorGatos : MonoBehaviour
     [SerializeField] private int minGatosTablon = 1;
     [SerializeField] private int maxGatosTablon = 3;
 
+    private int indexGatoActivo = -1;
+
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -106,5 +108,24 @@ public class GestorGatos : MonoBehaviour
     {
         foreach (DatosGato gato in todosLosGatos)
             gato.estaSalvado = false;
+        indexGatoActivo = -1;
+    }
+
+    // --- Métodos nuevos para el guardado ---
+
+    public DatosGato[] ObtenerTodosLosGatos()
+    {
+        return todosLosGatos.ToArray();
+    }
+
+    public int ObtenerIndexGatoActivo()
+    {
+        return indexGatoActivo;
+    }
+
+    public void EstablecerGatoActivo(int index)
+    {
+        if (index < 0 || index >= todosLosGatos.Count) return;
+        indexGatoActivo = index;
     }
 }

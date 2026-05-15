@@ -24,13 +24,13 @@ public class GestorClientes : MonoBehaviour
     [SerializeField] private SpriteRenderer mesa2Sprite;
     [SerializeField] private Color colorMesaOcupada = new Color(1f, 0.8f, 0.5f, 1f);
 
-    [Header("NPCs")]
-    [SerializeField] private GameObject npc1;
-    [SerializeField] private GameObject npc2;
+    [Header("Viñetas pedido")]
     [SerializeField] private GameObject vineta1;
     [SerializeField] private GameObject vineta2;
     [SerializeField] private Image iconoPedido1;
     [SerializeField] private Image iconoPedido2;
+    [SerializeField] private TextMeshProUGUI nombrePedido1;
+    [SerializeField] private TextMeshProUGUI nombrePedido2;
 
     private bool clienteEsperando = false;
     private DatosProducto pedidoActual;
@@ -43,7 +43,7 @@ public class GestorClientes : MonoBehaviour
     void Start()
     {
         panelPedido?.SetActive(false);
-        OcultarNPCs();
+        OcultarVinetas();
         if (mesa1Sprite != null) colorOriginalMesa = mesa1Sprite.color;
         StartCoroutine(SpawnClientes());
     }
@@ -78,7 +78,7 @@ public class GestorClientes : MonoBehaviour
         mesaActual = Random.Range(1, 3);
 
         ResaltarMesa(mesaActual, true);
-        MostrarNPC(mesaActual);
+        MostrarVineta(mesaActual);
 
         panelPedido?.SetActive(true);
         if (textoPedido != null)
@@ -88,7 +88,6 @@ public class GestorClientes : MonoBehaviour
             "¡Nuevo cliente en la mesa " + mesaActual + "! Quiere un " + pedidoActual.nombreProducto);
     }
 
-    // Llamado por GestorProductos cuando el jugador selecciona un producto
     public void NotificarProductoPreparado(DatosProducto producto)
     {
         if (!clienteEsperando) return;
@@ -132,11 +131,10 @@ public class GestorClientes : MonoBehaviour
             return;
         }
 
-        // Servir correctamente
         clienteEsperando = false;
         panelPedido?.SetActive(false);
         ResaltarMesa(mesaActual, false);
-        OcultarNPCs();
+        OcultarVinetas();
         GestorProductos.Instance?.LimpiarProductoPreparado();
         GameManager.Instance?.AnadirDinero(pedidoActual.precio);
 
@@ -151,7 +149,7 @@ public class GestorClientes : MonoBehaviour
         clienteEsperando = false;
         panelPedido?.SetActive(false);
         ResaltarMesa(mesaActual, false);
-        OcultarNPCs();
+        OcultarVinetas();
 
         int penalizacion = pedidoActual != null ? pedidoActual.precio / 2 : 5;
         GameManager.Instance?.GastarDinero(penalizacion);
@@ -162,28 +160,28 @@ public class GestorClientes : MonoBehaviour
         });
     }
 
-    private void MostrarNPC(int mesa)
+    private void MostrarVineta(int mesa)
     {
         if (mesa == 1)
         {
-            if (npc1 != null) npc1.SetActive(true);
             if (vineta1 != null) vineta1.SetActive(true);
             if (iconoPedido1 != null && pedidoActual.iconoProducto != null)
                 iconoPedido1.sprite = pedidoActual.iconoProducto;
+            if (nombrePedido1 != null)
+                nombrePedido1.text = pedidoActual.nombreProducto;
         }
         else
         {
-            if (npc2 != null) npc2.SetActive(true);
             if (vineta2 != null) vineta2.SetActive(true);
             if (iconoPedido2 != null && pedidoActual.iconoProducto != null)
                 iconoPedido2.sprite = pedidoActual.iconoProducto;
+            if (nombrePedido2 != null)
+                nombrePedido2.text = pedidoActual.nombreProducto;
         }
     }
 
-    private void OcultarNPCs()
+    private void OcultarVinetas()
     {
-        if (npc1 != null) npc1.SetActive(false);
-        if (npc2 != null) npc2.SetActive(false);
         if (vineta1 != null) vineta1.SetActive(false);
         if (vineta2 != null) vineta2.SetActive(false);
     }

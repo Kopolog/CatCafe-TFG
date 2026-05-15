@@ -15,7 +15,7 @@ public class GestorUI : MonoBehaviour
 
     void Start()
     {
-        ActualizarDinero(0);
+        ActualizarDinero(GameManager.Instance != null ? GameManager.Instance.Dinero : 0);
     }
 
     public void ActualizarDinero(int cantidad)

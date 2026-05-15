@@ -5,6 +5,9 @@ public class Menu : MonoBehaviour
 {
     public void Jugar()
     {
+        if (!GameManager.Instance.HayPartidaGuardada)
+            GameManager.Instance?.ReiniciarPartida();
+
         SceneManager.LoadScene("CafeScene");
     }
 
